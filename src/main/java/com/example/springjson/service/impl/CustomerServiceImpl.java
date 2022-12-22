@@ -1,6 +1,6 @@
-package com.example.springjson.Service.impl;
+package com.example.springjson.service.impl;
 
-import com.example.springjson.Service.CustomerService;
+import com.example.springjson.service.CustomerService;
 import com.example.springjson.entity.CustomerEntity;
 import com.example.springjson.model.CustomerModel;
 import com.example.springjson.repository.AddressRepo;

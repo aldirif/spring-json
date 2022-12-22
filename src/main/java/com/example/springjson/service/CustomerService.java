@@ -1,4 +1,4 @@
-package com.example.springjson.Service;
+package com.example.springjson.service;
 
 import com.example.springjson.model.CustomerModel;
 

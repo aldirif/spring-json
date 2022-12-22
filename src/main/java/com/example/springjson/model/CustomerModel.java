@@ -18,7 +18,6 @@ public class CustomerModel {
     private Long id;
     private String fullName;
 
-    private Long addressId;
     private List<AddressModel> address;
 
     private String gender;
@@ -27,8 +26,6 @@ public class CustomerModel {
     private Date dateOfBirth;
     private String placeOfBirth;
 
-    private Long schoolId;
     private List<SchoolModel> schools;
-
 
 }
