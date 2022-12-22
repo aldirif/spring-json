@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddressRequest {
+public class AddressModel {
+    private Long id;
     private String name;
     private String address;
     private String village;
