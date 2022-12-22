@@ -1,6 +1,5 @@
 package com.example.springjson.model;
 
-import com.example.springjson.entity.AddressEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +15,4 @@ public class AddressRequest {
     private String district;
     private String city;
     private String province;
-
-    public AddressRequest(AddressEntity entity) {
-        BeanUtils.copyProperties(entity,this);
-    }
 }

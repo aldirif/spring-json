@@ -1,7 +1,6 @@
 package com.example.springjson.model;
 
-import com.example.springjson.entity.CustomerEntity;
-import com.example.springjson.entity.SchoolEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,8 +13,4 @@ public class SchoolRequest {
     private String title;
     private String name;
     private String level;
-
-    public SchoolRequest(SchoolEntity entity) {
-        BeanUtils.copyProperties(entity,this);
-    }
 }

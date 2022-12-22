@@ -1,12 +1,14 @@
 package com.example.springjson.model;
 
-import com.example.springjson.entity.CustomerEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,12 +20,11 @@ public class CustomerRequest {
     private Long id;
     private String fullName;
     private String gender;
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
     private String placeOfBirth;
     private List<AddressRequest> address = new ArrayList<>();
     private List<SchoolRequest> schools = new ArrayList<>();
 
-    public CustomerRequest(CustomerEntity entity) {
-        BeanUtils.copyProperties(entity,this);
-    }
 }
