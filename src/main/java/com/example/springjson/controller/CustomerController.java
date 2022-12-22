@@ -1,6 +1,5 @@
 package com.example.springjson.controller;
 
-import com.example.springjson.model.CustomerRequest;
 import com.example.springjson.model.ResponseModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
