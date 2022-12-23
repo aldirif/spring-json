@@ -2,10 +2,8 @@ package com.example.springjson.controller;
 
 import com.example.springjson.model.CustomerRequest;
 import com.example.springjson.service.CustomerService;
-import com.example.springjson.model.CustomerModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +18,8 @@ public class CustomerController {
     private CustomerService service;
 
     @Autowired
-    public CustomerController(CustomerService service) {
-        this.service = service;
+    public CustomerController(CustomerService customerService) {
+        this.service = customerService;
     }
 
     @PostMapping
@@ -30,5 +28,6 @@ public class CustomerController {
                 service.saveAll(request)
         );
     }
+
 }
 

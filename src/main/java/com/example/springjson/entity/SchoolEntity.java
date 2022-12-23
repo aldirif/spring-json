@@ -1,6 +1,5 @@
 package com.example.springjson.entity;
 
-import com.example.springjson.model.AddressModel;
 import com.example.springjson.model.SchoolModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,11 +8,11 @@ import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Entity
-@Table(name = "customer_school_tab")
+@Table(name = "schools_tab")
 public class SchoolEntity {
     @Id
     @TableGenerator(name = "school_id_generator", table = "sequence_tab",
@@ -22,20 +21,20 @@ public class SchoolEntity {
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "school_id_generator")
     private Long id;
 
-    @Column(name = "title", length = 100, nullable = false)
+    @Column(name = "title", length = 250, nullable = false)
     private String title;
 
-    @Column(name = "school_name", length = 150, nullable = false)
+    @Column(name = "name", length = 250, nullable = false)
     private String name;
 
-    @Column(name = "school_level", length = 64, nullable = false)
+    @Column(name = "level", length = 250, nullable = false)
     private String level;
 
-    @Column(name = "customer_id", nullable = false)
+    @Column(name = "customer_id", insertable = false, updatable = false)
     private Long customerId;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer;
 
     public SchoolEntity(SchoolModel model) {

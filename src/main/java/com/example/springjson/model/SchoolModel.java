@@ -7,16 +7,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.io.Serializable;
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class SchoolModel {
+@NoArgsConstructor
+public class SchoolModel implements Serializable {
     private Long id;
     private String title;
     private String name;
     private String level;
 
-    public SchoolModel(SchoolEntity entity) {
+    public SchoolModel(SchoolEntity entity){
         BeanUtils.copyProperties(entity, this);
     }
 }

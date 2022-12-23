@@ -10,25 +10,31 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class CustomerModel {
+@NoArgsConstructor
+public class CustomerModel implements Serializable {
     private Long id;
+
     private String fullName;
+
+    List<AddressModel> address;
+
     private String gender;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
-    private String placeOfBirth;
-    private List<AddressModel> address;
-    private List<SchoolModel> schools;
 
-    public CustomerModel(CustomerEntity entity) {
+    private String placeOfBirth;
+
+    List<SchoolModel> schools;
+
+    public CustomerModel(CustomerEntity entity){
         BeanUtils.copyProperties(entity, this);
     }
 }

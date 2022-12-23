@@ -10,44 +10,65 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Entity
-@Table(name = "customer_tab")
+@Table(name = "customer_req_tab")
 public class CustomerEntity {
     @Id
-    @TableGenerator(name = "cus_id_generator", table = "sequence_tab",
+    @TableGenerator (name = "customer_id_generator", table = "sequence_tab",
             pkColumnName = "gen_name", valueColumnName = "gen_value",
             pkColumnValue="customer_id", initialValue=0, allocationSize=0)
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "cus_id_generator")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "customer_id_generator")
     private Long id;
 
-    @Column(name = "full_name", length = 100)
+    @Column(name = "fullName", length = 100, nullable = false)
     private String fullName;
-    @Column(name = "gander", length = 10)
+
+    @Column(name = "gender", length = 15, nullable = false)
     private String gender;
 
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
-    @Column(name = "place_of_birth", length = 100)
+
+    @Column(name = "place_of_birth")
     private String placeOfBirth;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private Set<AddressEntity> address = new HashSet<>();
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AddressEntity> addressEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private Set<SchoolEntity> schools = new HashSet<>();
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SchoolEntity> schoolEntities = new ArrayList<>();
 
-    public CustomerEntity(CustomerModel model) {
-        BeanUtils.copyProperties(model,this);
+    public CustomerEntity(CustomerModel model){
+        BeanUtils.copyProperties(model, this);
+    }
+
+    public void addAddress(AddressEntity address){
+        this.addressEntities.add(address);
+        address.setCustomer(this);
+    }
+
+    public void addAddressList(List<AddressModel> addressModels){
+        for(AddressModel item: addressModels){
+            AddressEntity addressEntity = new AddressEntity(item);
+            addAddress(addressEntity);
+        }
+    }
+
+    public void addSchool(SchoolEntity school){
+        this.schoolEntities.add(school);
+        school.setCustomer(this);
+    }
+
+    public void addSchoolList(List<SchoolModel> schoolModels){
+        for(SchoolModel item2: schoolModels){
+            SchoolEntity schoolEntity = new SchoolEntity(item2);
+            addSchool(schoolEntity);
+        }
     }
 }
-

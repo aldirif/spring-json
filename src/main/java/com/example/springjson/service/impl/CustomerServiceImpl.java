@@ -1,46 +1,41 @@
 package com.example.springjson.service.impl;
-
-import com.example.springjson.model.CustomerRequest;
-import com.example.springjson.model.CustomerResponse;
+import com.example.springjson.model.*;
+import com.example.springjson.repository.AddressRepo;
+import com.example.springjson.repository.SchoolRepo;
 import com.example.springjson.service.CustomerService;
 import com.example.springjson.entity.CustomerEntity;
-import com.example.springjson.model.CustomerModel;
-import com.example.springjson.repository.AddressRepo;
 import com.example.springjson.repository.CustomerRepo;
-import com.example.springjson.repository.SchoolRepo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-@Slf4j
 @Service
+@Slf4j
 public class CustomerServiceImpl implements CustomerService {
-    private CustomerRepo repo;
+    private CustomerRepo customerRepo;
+    private AddressRepo addressRepo;
+    private SchoolRepo schoolRepo;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepo repo) {
-        this.repo = repo;
+    public CustomerServiceImpl(CustomerRepo customerRepo, AddressRepo addressRepo, SchoolRepo schoolRepo) {
+        this.customerRepo = customerRepo;
+        this.addressRepo = addressRepo;
+        this.schoolRepo = schoolRepo;
     }
+
 
     @Override
     public List<CustomerModel> getAll() {
-        return this.repo.findAll().stream().map(CustomerModel::new)
-                .collect(Collectors.toList());
+        return null;
     }
 
     @Override
     public Optional<CustomerModel> getById(Long id) {
-        if(id == 0) {
-            return Optional.empty();
-        }
-        Optional<CustomerEntity> result = this.repo.findById(id);
-        return result.map(CustomerModel::new);
+        return Optional.empty();
     }
 
     @Override
@@ -63,68 +58,41 @@ public class CustomerServiceImpl implements CustomerService {
                 countFailed++;
             }
         }
-        // return  new CustomerResponse(customerModels, countSuccess, countFailed);
+        return new CustomerResponse(customerModels, countSuccess, countFailed);
 
-        response.setData(customerModels);
-        response.setSuccessSave(countSuccess);
-        response.setFailedSave(countFailed);
-        return response;
     }
 
     @Override
     public Optional<CustomerModel> save(CustomerModel model) {
-        if(model == null) {
+
+        if (model == null || model.getAddress().isEmpty() || model.getSchools().isEmpty()) {
             return Optional.empty();
         }
-        CustomerEntity entity = new CustomerEntity(model);
+
+        CustomerEntity customerEntity = new CustomerEntity(model);
+        customerEntity.addAddressList(model.getAddress());
+        customerEntity.addSchoolList(model.getSchools());
+
         try {
-            this.repo.save(entity);
-            return Optional.of(new CustomerModel(entity));
-        }catch (Exception e){
+            this.customerRepo.save(customerEntity);
+            return Optional.of(new CustomerModel(customerEntity));
+        } catch (Exception e) {
             log.error("Customer save is failed, error: {}", e.getMessage());
             return Optional.empty();
         }
     }
 
+
+
+
+
     @Override
     public Optional<CustomerModel> update(Long id, CustomerModel model) {
-        if(id == 0) {
-            return Optional.empty();
-        }
-
-        CustomerEntity result = this.repo.findById(id).orElse(null);
-        if(result == null){
-            return Optional.empty();
-        }
-
-        // copy property
-        BeanUtils.copyProperties(model, result);
-        try {
-            this.repo.save(result);
-            return Optional.of(new CustomerModel(result));
-        }catch (Exception e){
-            log.error("Customer update is failed, error: {}", e.getMessage());
-            return Optional.empty();
-        }
+        return Optional.empty();
     }
 
     @Override
     public Optional<CustomerModel> delete(Long id) {
-        if(id == 0) {
-            return Optional.empty();
-        }
-
-        CustomerEntity result = this.repo.findById(id).orElse(null);
-        if(result == null){
-            return Optional.empty();
-        }
-
-        try {
-            this.repo.delete(result);
-            return Optional.of(new CustomerModel(result));
-        }catch (Exception e){
-            log.error("Customer delete is failed, error: {}", e.getMessage());
-            return Optional.empty();
-        }
+        return Optional.empty();
     }
 }
