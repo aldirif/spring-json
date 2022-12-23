@@ -9,36 +9,36 @@ import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Entity
-@Table(name = "schools_tab")
+@Table(name = "customer_school_tab")
 public class SchoolEntity {
     @Id
-    @TableGenerator(name = "schools_id_generator", table = "sequence_tab",
+    @TableGenerator(name = "school_id_generator", table = "sequence_tab",
             pkColumnName = "gen_name", valueColumnName = "gen_value",
-            pkColumnValue = "schools_id", initialValue = 0, allocationSize = 0)
-
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "schools_id_generator")
+            pkColumnValue="school_id", initialValue=0, allocationSize=0)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "school_id_generator")
     private Long id;
 
-    @Column(name = "title", length = 10, nullable = false)
+    @Column(name = "title", length = 100, nullable = false)
     private String title;
 
-    @Column(name = "name", length = 50, nullable = false)
+    @Column(name = "school_name", length = 150, nullable = false)
     private String name;
 
-    @Column(name = "level", length = 25, nullable = false)
+    @Column(name = "school_level", length = 64, nullable = false)
     private String level;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @Column(name = "customer_id", nullable = false)
+    private Long customerId;
+
+    @ManyToOne
     @JoinColumn(name = "customer_id", insertable = false, updatable = false)
     private CustomerEntity customer;
 
     public SchoolEntity(SchoolModel model) {
-        this.title = model.getTitle();
-        this.name = model.getName();
-        this.level = model.getLevel();
+        BeanUtils.copyProperties(model, this);
     }
 }
