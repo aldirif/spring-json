@@ -13,7 +13,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SchoolModel implements Serializable {
-    private Long id;
     private String title;
     private String name;
     private String level;
