@@ -27,6 +27,17 @@ public class CustomerServiceImpl implements CustomerService {
         this.schoolRepo = schoolRepo;
     }
 
+
+    @Override
+    public List<CustomerModel> getAll() {
+        return null;
+    }
+
+    @Override
+    public Optional<CustomerModel> getById(Long id) {
+        return Optional.empty();
+    }
+
     @Override
     public CustomerResponse saveAll(CustomerRequest request) {
         if(request.getCustomers().isEmpty()) {
@@ -46,6 +57,8 @@ public class CustomerServiceImpl implements CustomerService {
             }
         }
         return new CustomerResponse(customerModels, countSuccess, countFailed);
+
+
     }
 
     @Override
@@ -66,5 +79,15 @@ public class CustomerServiceImpl implements CustomerService {
             log.error("Customer save is failed, error: {}", e.getMessage());
             return Optional.empty();
         }
+    }
+
+    @Override
+    public Optional<CustomerModel> update(Long id, CustomerModel model) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<CustomerModel> delete(Long id) {
+        return Optional.empty();
     }
 }
